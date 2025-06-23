@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ 'Edit' if creche else 'Add' }} Creche | CrecheFinder</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: url("/static/images/bg_7.jpg") no-repeat center center fixed;
+      background-size: cover;
+      margin: 0;
+    }
+
+    .overlay {
+      background-color: rgba(255, 255, 255, 0.9);
+      width: 600px;
+      margin: 60px auto;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      margin-top: 15px;
+      font-weight: 600;
+      color: #34495e;
+    }
+
+    input, textarea, select {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-top: 5px;
+      font-size: 14px;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    .service-list input {
+      margin-bottom: 8px;
+    }
+
+    .submit-btn {
+      margin-top: 25px;
+      background-color: #27ae60;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .submit-btn:hover {
+      background-color: #219150;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <h2>{{ 'Edit' if creche else 'Add New' }} Creche</h2>
+    <form method="POST">
+      {% if not creche %}
+      <label for="owner_id">Owner ID</label>
+      <input type="text" name="owner_id" required>
+      {% endif %}
+
+      <label for="name">Creche Name</label>
+      <input type="text" name="name" value="{{ creche.name if creche else '' }}" required>
+
+      <label for="location">Location</label>
+      <input type="text" name="location" value="{{ creche.location if creche else '' }}" required>
+
+      <label for="services">Services (comma-separated)</label>
+      <input type="text" name="services" value="{{ ', '.join(creche.services) if creche and creche.services else '' }}">
+
+      <label for="photos">Photo URLs (comma-separated)</label>
+      <textarea name="photos" rows="3" placeholder="https://...">{{ ', '.join(creche.photos) if creche and creche.photos else '' }}</textarea>
+
+      <button class="submit-btn" type="submit">{{ 'Update' if creche else 'Add' }}</button>
+    </form>
+  </div>
+</body>
+</html>
